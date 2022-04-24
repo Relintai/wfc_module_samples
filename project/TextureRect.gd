@@ -46,8 +46,6 @@ func _init():
 	load_data()
 	
 func load_data():
-	var a = ResourceLoader.load("res://samples/samples.xml")
-	
 	data.clear()
 	
 	var xmlp : XMLParser = XMLParser.new()
@@ -108,7 +106,7 @@ func generate_image_overlapping():
 	
 	var sd : SampleData = data[_current_data_index]
 	
-	get_node(settings_label_path).text = sd.to_string()
+	get_node(settings_label_path).text = str(_current_data_index) + "\n" + sd.to_string()
 	
 	var indexer : ImageIndexer = ImageIndexer.new()
 	
@@ -161,6 +159,11 @@ func generate_image_overlapping():
 	get_node(result_image_rect_path).texture = res_tex
 
 func generate_image_tiled():
+	#load data xml
+	#process
+	#index all images -> need new api to the indexer
+	#add_neighbour set binding names -> {left_tile, left_orientation, right_tile, right_orientation}
+	#left_orientation -> might need constants
 	pass
 
 func _on_prev_pressed():
