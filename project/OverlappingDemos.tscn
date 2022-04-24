@@ -9,7 +9,7 @@ anchor_bottom = 1.0
 script = ExtResource( 1 )
 source_image_rect_path = NodePath("VBoxContainer2/VBoxContainer/HBoxContainer/TextureRect")
 result_image_rect_path = NodePath("VBoxContainer2/VBoxContainer/HBoxContainer2/TextureRect")
-settings_label_path = NodePath("VBoxContainer2/VBoxContainer/HBoxContainer3/Label2")
+settings_label_path = NodePath("VBoxContainer2/VBoxContainer/HBoxContainer3/ScrollContainer/Label2")
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="."]
 margin_left = 7.0
@@ -58,18 +58,29 @@ expand = true
 
 [node name="HBoxContainer3" type="VBoxContainer" parent="VBoxContainer2/VBoxContainer"]
 margin_left = 608.0
-margin_right = 659.0
+margin_right = 1010.0
 margin_bottom = 562.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="VBoxContainer2/VBoxContainer/HBoxContainer3"]
-margin_right = 51.0
+margin_right = 402.0
 margin_bottom = 14.0
 text = "Settings"
 
-[node name="Label2" type="Label" parent="VBoxContainer2/VBoxContainer/HBoxContainer3"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer2/VBoxContainer/HBoxContainer3"]
 margin_top = 18.0
-margin_right = 51.0
-margin_bottom = 32.0
+margin_right = 402.0
+margin_bottom = 562.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label2" type="Label" parent="VBoxContainer2/VBoxContainer/HBoxContainer3/ScrollContainer"]
+margin_right = 402.0
+margin_bottom = 544.0
+size_flags_horizontal = 3
+size_flags_vertical = 7
+autowrap = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2"]
 margin_top = 566.0
