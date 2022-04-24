@@ -344,7 +344,7 @@ func generate_image_tiled():
 	if (res.size() == 0):
 		print("(res.size() == 0)")
 		return
-	
+		
 	var data : PoolByteArray = indexer.indices_to_argb8_data(res)
 	
 	var res_img : Image = Image.new()

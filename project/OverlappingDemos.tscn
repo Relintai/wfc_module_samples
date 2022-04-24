@@ -56,6 +56,13 @@ margin_bottom = 318.0
 rect_min_size = Vector2( 300, 300 )
 expand = true
 
+[node name="Label2" type="Label" parent="VBoxContainer2/VBoxContainer/HBoxContainer2"]
+margin_top = 322.0
+margin_right = 300.0
+margin_bottom = 387.0
+text = "Note: If an image does not appear here, that means the generation has failed. At this stage it's likely a bug. Try clicking randomize a few times."
+autowrap = true
+
 [node name="HBoxContainer3" type="VBoxContainer" parent="VBoxContainer2/VBoxContainer"]
 margin_left = 608.0
 margin_right = 1010.0
