@@ -39,14 +39,12 @@ class NeighbourEntry:
 	func setup(l : String, r : String):
 		left = l.get_slice(" ", 0)
 		var s : String = l.get_slice(" ", 1)
-		
 		if (s != ""):
 			left_orientation = int(s)
 		
 		right = r.get_slice(" ", 0)
 		
-		s = l.get_slice(" ", 1)
-		
+		s = r.get_slice(" ", 1)
 		if (s != ""):
 			right_orientation = int(s)
 	
@@ -161,7 +159,20 @@ func load_tile_entry(entry : SampleData) -> Array:
 					if attrib_name == "name":
 						e.tile_name = attrib_value
 					elif attrib_name == "symmetry":
-						e.symmetry = int(attrib_value)
+						
+						if attrib_value == "X":
+							e.symmetry = WaveFormCollapse.SYMMETRY_X
+						elif attrib_value == "T":
+							e.symmetry = WaveFormCollapse.SYMMETRY_T
+						elif attrib_value == "I":
+							e.symmetry = WaveFormCollapse.SYMMETRY_I
+						elif attrib_value == "L":
+							e.symmetry = WaveFormCollapse.SYMMETRY_L
+						elif attrib_value == "\\":
+							e.symmetry = WaveFormCollapse.SYMMETRY_BACKSLASH
+						elif attrib_value == "P":
+							e.symmetry = WaveFormCollapse.SYMMETRY_P
+						
 					elif attrib_name == "weight":
 						e.weight = float(attrib_value)
 						
@@ -282,25 +293,34 @@ func generate_image_tiled():
 	var indexer : ImageIndexer = ImageIndexer.new()
 	var wfc : TilingWaveFormCollapse = TilingWaveFormCollapse.new()
 	
+	var img_size : int = 0
+	
 	for i in range(sd.tiles.size()):
 		var te : TileEntry = sd.tiles[i]
 		
 		if !te.image:
 			var tile_index : int = wfc.tile_add(te.symmetry, te.weight)
 			wfc.tile_name_set(tile_index, te.tile_name)
+			wfc.tile_symmetry_set(tile_index, te.symmetry)
 			
 			for img in te.images:
+				if img_size == 0:
+					img_size = img.get_height()
+					
 				var indices : PoolIntArray = indexer.index_image(img)
 				wfc.tile_data_add(tile_index, indices, img.get_width(), img.get_height())
 		else:
+			if img_size == 0:
+					img_size = te.image.get_height()
+					
 			var indices : PoolIntArray = indexer.index_image(te.image)
 			var tile_index : int = wfc.tile_add_generated(indices, te.image.get_width(), te.image.get_height(), te.symmetry, te.weight)
 			wfc.tile_name_set(tile_index, te.tile_name)
-	
+
 	
 	for i in range(sd.neighbours.size()):
 		var ne : NeighbourEntry = sd.neighbours[i]
-		
+
 		wfc.neighbour_data_add_str(ne.left, ne.left_orientation, ne.right, ne.right_orientation)
 	
 	wfc.periodic_output = sd.periodic
@@ -328,7 +348,7 @@ func generate_image_tiled():
 	var data : PoolByteArray = indexer.indices_to_argb8_data(res)
 	
 	var res_img : Image = Image.new()
-	res_img.create_from_data(sd.width, sd.height, false, Image.FORMAT_RGBA8, data)
+	res_img.create_from_data(sd.width * img_size, sd.height * img_size, false, Image.FORMAT_RGBA8, data)
 	
 	var res_tex : ImageTexture = ImageTexture.new();
 	res_tex.create_from_image(res_img, 0)
